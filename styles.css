@@ -6,31 +6,176 @@
 
 body {
     font-family: 'Lora', serif;
-    background-color: #e0d8c0;
+    background-color: #f0eadb;
     color: #2c2417;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+    background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+    perspective: 1500px;
+}
+
+.book-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 0;
+    position: relative;
+    transform-style: preserve-3d;
 }
 
 .book {
     width: 100%;
-    max-width: 800px;
     position: relative;
-    margin: 0 auto;
+    transform-style: preserve-3d;
+    transform: rotateY(-8deg) rotateX(2deg);
+    /* Less aggressive angle */
+    transition: transform 0.5s ease-in-out;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+    /* Softer shadow */
+    cursor: grab;
+    min-height: 650px;
+}
+
+.book:active {
+    cursor: grabbing;
+}
+
+.book:hover {
+    transform: rotateY(-5deg) rotateX(2deg);
+    /* Gentler hover effect */
+}
+
+.book-spine {
+    position: absolute;
+    left: -20px;
+    /* Thinner spine */
+    top: 0;
+    height: 100%;
+    width: 20px;
+    background-color: #7b6249;
+    /* Matching cover color */
+    border-radius: 2px 0 0 2px;
+    box-shadow:
+        inset -3px 0 8px rgba(0, 0, 0, 0.1),
+        -1px 0 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: -1;
+    transform-origin: right;
+    transform: rotateY(-8deg);
+}
+
+.book-spine::after {
+    content: "BOOK CLUB MATCHER";
+    color: #f1e9d4;
+    font-size: 10px;
+    font-weight: bold;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    letter-spacing: 2px;
 }
 
 .page {
     background-color: #fff9e6;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
-    padding: 40px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    /* Lighter shadow */
+    padding: 40px 40px 80px;
     position: relative;
-    border-radius: 2px;
+    border-radius: 0 2px 2px 0;
     min-height: 650px;
     background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+    border-left: 1px solid #e6daae;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.5s ease;
+}
+
+.page::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 20px;
+    /* Narrower gradient */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.03), transparent);
+    z-index: 1;
+}
+
+/* Create multiple page illusion with layered elements */
+.page::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-image:
+        linear-gradient(to right,
+            rgba(0, 0, 0, 0.03),
+            rgba(0, 0, 0, 0.01));
+    z-index: 1;
+}
+
+.multi-page-effect {
+    position: absolute;
+    right: -6px;
+    /* Thinner edge effect */
+    top: 5px;
+    bottom: 5px;
+    width: 6px;
+    transform: translateZ(-1px);
+    z-index: -1;
+}
+
+.page-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff9e6;
+    border-radius: 0 1px 1px 0;
+    transform: translateZ(-1px);
+    opacity: 0.8;
+}
+
+.page-layer:nth-child(1) {
+    transform: translateZ(-0.5px);
+}
+
+.page-layer:nth-child(2) {
+    transform: translateZ(-1px);
+}
+
+.page-layer:nth-child(3) {
+    transform: translateZ(-1.5px);
+}
+
+.page-layer:nth-child(4) {
+    transform: translateZ(-2px);
+}
+
+.page-layer:nth-child(5) {
+    transform: translateZ(-2.5px);
+}
+
+.page-edge {
+    position: absolute;
+    right: -3px;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: #f1e9d4;
+    border-radius: 0 1px 1px 0;
+    transform: rotateY(-5deg);
+    /* Less aggressive angle */
+    transform-origin: left;
 }
 
 .hidden {
@@ -40,13 +185,13 @@ body {
 .page-content {
     position: relative;
     z-index: 1;
-    max-height: 600px;
+    max-height: 530px;
     overflow-y: auto;
     padding-right: 10px;
 }
 
 .page-content::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .page-content::-webkit-scrollbar-track {
@@ -55,7 +200,7 @@ body {
 
 .page-content::-webkit-scrollbar-thumb {
     background: #d5c7a9;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 .corner-fold {
@@ -65,7 +210,8 @@ body {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 0 30px 30px;
+    border-width: 0 0 20px 20px;
+    /* Smaller corner fold */
     border-color: transparent transparent #e6daae transparent;
     z-index: 2;
 }
@@ -78,6 +224,136 @@ body {
     font-style: italic;
     font-size: 14px;
     color: #8a7e63;
+    z-index: 3;
+}
+
+.navigation-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 3;
+}
+
+.navigation-controls .prev-button,
+.navigation-controls .next-button {
+    cursor: pointer;
+    color: #5a4632;
+    font-style: italic;
+    padding: 5px 10px;
+    background-color: #f7f1e3;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    /* Softer shadow */
+    transition: all 0.2s;
+}
+
+.navigation-controls .prev-button:hover,
+.navigation-controls .next-button:hover {
+    background-color: #e6daae;
+    transform: translateY(-1px);
+    /* Smaller hover effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-controls .prev-button:active,
+.navigation-controls .next-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Foreword page as cover styling */
+.foreword {
+    background-color: #7b6249;
+    /* Cover color */
+    background-image: none;
+    color: #f1e9d4;
+}
+
+.foreword .page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #f1e9d4;
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: none;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cover-subtitle {
+    font-family: 'Lora', serif;
+    font-size: 24px;
+    font-style: italic;
+    color: #e6daae;
+    margin-bottom: 30px;
+}
+
+.cover-decoration {
+    width: 150px;
+    height: 2px;
+    background-color: #e6daae;
+    margin: 0 auto 40px;
+    position: relative;
+}
+
+.cover-decoration::before,
+.cover-decoration::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #e6daae;
+    top: -4px;
+}
+
+.cover-decoration::before {
+    left: 0;
+}
+
+.cover-decoration::after {
+    right: 0;
+}
+
+.foreword .special-text {
+    color: #e6daae;
+    font-size: 22px;
+    margin: 40px 0;
+}
+
+.foreword p {
+    color: #f1e9d4;
+    font-size: 18px;
+}
+
+.foreword .navigation-controls .next-button,
+.foreword .navigation-controls .prev-button {
+    background-color: rgba(230, 218, 174, 0.3);
+    color: #f1e9d4;
+}
+
+.foreword .navigation-controls .next-button:hover,
+.foreword .navigation-controls .prev-button:hover {
+    background-color: rgba(230, 218, 174, 0.5);
+}
+
+.foreword .page-number {
+    color: #e6daae;
+}
+
+.foreword .corner-fold {
+    border-color: transparent transparent rgba(230, 218, 174, 0.5) transparent;
 }
 
 h1 {
@@ -176,22 +452,15 @@ button:hover {
     margin-top: 10px;
 }
 
-.prev-button,
-.next-button {
-    position: absolute;
-    bottom: 20px;
-    cursor: pointer;
-    color: #5a4632;
-    font-style: italic;
-    z-index: 3;
+.button-row {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
-.prev-button {
-    left: 20px;
-}
-
-.next-button {
-    right: 20px;
+.button-row button {
+    margin-top: 20px;
+    flex: 1;
 }
 
 #members-list {
@@ -242,7 +511,8 @@ button:hover {
     height: auto;
     margin-right: 15px;
     border: 1px solid #d5c7a9;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    /* Softer shadow */
 }
 
 .book-info {
@@ -286,10 +556,12 @@ button:hover {
     color: #d5c7a9;
     margin: 10px 0;
     cursor: pointer;
+    text-align: center;
 }
 
 .star {
     transition: color 0.3s;
+    margin: 0 3px;
 }
 
 .star:hover,
@@ -302,6 +574,7 @@ button:hover {
     padding: 15px;
     border-radius: 4px;
     margin-top: 30px;
+    text-align: center;
 }
 
 .rate-section h3 {
@@ -342,46 +615,102 @@ button:hover {
     color: #8a7e63;
 }
 
-/* Book page turning effect */
-.page {
-    transition: transform 0.6s, opacity 0.6s;
-}
-
+/* Enhanced page turning effect with gentler angles */
 .page.turning-out {
-    transform: translateX(-100%) rotateY(-20deg);
+    transform: rotateY(-90deg);
+    /* Less extreme page turn angle */
     opacity: 0;
+    z-index: 10;
 }
 
 .page.turning-in {
-    transform: translateX(100%) rotateY(20deg);
+    transform: rotateY(90deg);
+    /* Less extreme page turn angle */
     opacity: 0;
+    z-index: 10;
 }
 
-/* Foreword specific styles */
-.foreword {
-    background-color: #f9f5e9;
-}
-
-.foreword h1 {
-    font-style: italic;
-}
-
-/* Page decoration */
-.page::before {
+/* Dynamic shadow effect during page turn */
+.page.turning-out::before,
+.page.turning-in::before {
     content: '';
     position: absolute;
-    left: 0;
     top: 0;
-    height: 100%;
-    width: 30px;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.05), transparent);
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to right,
+            rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0));
+    z-index: 100;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* First letter styling for a more book-like appearance */
+.page-content>p:first-of-type::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3em;
+    /* Slightly smaller drop cap */
+    float: left;
+    line-height: 0.8;
+    margin-right: 8px;
+    color: #5a4632;
+}
+
+/* Book page edge effect */
+.book-pages-edge {
+    position: absolute;
+    right: -3px;
+    /* Thinner edge */
+    top: 5px;
+    bottom: 5px;
+    width: 3px;
+    background-color: #fff;
+    background-image:
+        linear-gradient(to right,
+            #e6daae 0%,
+            #fff9e6 50%,
+            #e6daae 100%);
+    transform: rotateY(10deg) translateZ(-5px);
+    /* Less aggressive angle */
+    transform-origin: left;
+    border-radius: 0 1px 1px 0;
+    z-index: -3;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.05);
+    /* Softer shadow */
+}
+
+/* 3D Cursor Interaction */
+/* These will be applied by JavaScript on mousemove */
+.cursor-rotate-effect {
+    transition: transform 0.2s ease-out;
 }
 
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
-    .page {
-        padding: 30px;
+    .book-container {
+        padding: 0;
+        perspective: 1000px;
+    }
+
+    .book {
+        transform: rotateY(-5deg) rotateX(2deg);
+        /* Even gentler angle on tablets */
         min-height: 550px;
+    }
+
+    .book:hover {
+        transform: rotateY(-3deg) rotateX(1deg);
+    }
+
+    .book-spine {
+        display: none;
+    }
+
+    .page {
+        padding: 30px 30px 80px;
+        min-height: 550px;
+        border-radius: 2px;
     }
 
     h1 {
@@ -396,11 +725,42 @@ button:hover {
         width: 80px;
         margin-bottom: 15px;
     }
+
+    .navigation-controls {
+        padding: 0 30px;
+    }
+
+    .cover-title {
+        font-size: 36px;
+    }
+
+    .cover-subtitle {
+        font-size: 20px;
+    }
 }
 
 @media (max-width: 480px) {
+    body {
+        perspective: 800px;
+    }
+
+    .book {
+        transform: rotateY(-2deg) rotateX(1deg);
+        /* Minimal angle on mobile */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .book:hover {
+        transform: rotateY(-1deg) rotateX(0.5deg);
+    }
+
+    .multi-page-effect {
+        display: none;
+    }
+
     .page {
-        padding: 20px;
+        padding: 20px 20px 80px;
+        transform-origin: center bottom;
     }
 
     h1 {
@@ -412,22 +772,97 @@ button:hover {
         grid-template-columns: 1fr;
     }
 
-    .prev-button,
-    .next-button {
-        position: static;
-        display: block;
-        text-align: center;
-        margin: 10px 0;
-    }
-
-    .page-number {
-        position: static;
-        transform: none;
-        text-align: center;
-        margin-top: 20px;
-    }
-
     .corner-fold {
         display: none;
     }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .page-content {
+        max-height: 420px;
+    }
+
+    .navigation-controls {
+        padding: 0 20px;
+    }
+
+    .cover-title {
+        font-size: 30px;
+    }
+
+    .cover-subtitle {
+        font-size: 18px;
+    }
+
+    .foreword .special-text {
+        font-size: 18px;
+    }
+
+    /* Adjusted page turn effect for mobile */
+    .page.turning-out {
+        transform: rotateX(-60deg);
+        /* Vertical flip for mobile */
+    }
+
+    .page.turning-in {
+        transform: rotateX(60deg);
+    }
+}
+
+/* Book pages texture overlay for extra realism */
+.page:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Add some subtle print-like imperfections to inner pages */
+.quiz::before,
+.group-setup::before,
+.results::before,
+.history::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px,
+            transparent 1px);
+    background-size: 5px 5px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+}
+
+/* Book cover patterns for foreword page */
+.foreword::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(45deg,
+            rgba(0, 0, 0, 0.1) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(0, 0, 0, 0.1) 75%,
+            transparent 75%,
+            transparent);
+    background-size: 100px 100px;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
 }

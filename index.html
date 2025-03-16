@@ -12,179 +12,246 @@
 </head>
 
 <body>
-    <div class="book">
-        <div class="page foreword">
-            <div class="page-content">
-                <h1>Foreword</h1>
-                <p class="special-text">"A gift made by me the godly Jayesh Paluru"</p>
-                <p>Welcome to the Book Club Matcher, where we help your reading group find the perfect book that
-                    everyone will enjoy.</p>
-                <p>Turn the page to begin your literary journey...</p>
+    <div class="book-container" id="book-container">
+        <div class="book" id="book">
+            <!-- Book cover is now the foreword -->
+            <div class="book-spine"></div>
+            <div class="book-pages-edge"></div>
+
+            <div class="page foreword">
+                <div class="multi-page-effect">
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-edge"></div>
+                </div>
+                <div class="page-content">
+                    <h1 class="cover-title">Book Club Matcher</h1>
+                    <h2 class="cover-subtitle">Find Your Perfect Read</h2>
+                    <div class="cover-decoration"></div>
+                    <p class="special-text">"A gift made by me the godly Jayesh Paluru"</p>
+                    <p>Welcome to the Book Club Matcher, where we help your reading group find the perfect book that
+                        everyone will enjoy.</p>
+                    <p>Open this book to begin your literary journey...</p>
+                </div>
+
+                <div class="navigation-controls">
+                    <div class="prev-button" style="visibility: hidden;">← Previous</div>
+                    <div class="next-button" onclick="turnPage('quiz')">Turn Page →</div>
+                </div>
                 <div class="page-number">i</div>
                 <div class="corner-fold"></div>
-                <div class="next-button" onclick="turnPage('quiz')">Turn Page →</div>
             </div>
-        </div>
 
-        <div class="page quiz hidden">
-            <div class="page-content">
-                <h1>Your Reading Preferences</h1>
-                <p>Let's find out what kind of books you enjoy.</p>
+            <div class="page quiz hidden">
+                <div class="multi-page-effect">
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-edge"></div>
+                </div>
+                <div class="page-content">
+                    <h1>Your Reading Preferences</h1>
+                    <p>Let's find out what kind of books you enjoy.</p>
 
-                <form id="preferences-form">
-                    <div class="form-group">
-                        <label for="genre">Favorite Genres:</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="genre" value="fiction"> Fiction</label>
-                            <label><input type="checkbox" name="genre" value="mystery"> Mystery</label>
-                            <label><input type="checkbox" name="genre" value="science_fiction"> Science Fiction</label>
-                            <label><input type="checkbox" name="genre" value="fantasy"> Fantasy</label>
-                            <label><input type="checkbox" name="genre" value="historical_fiction"> Historical</label>
-                            <label><input type="checkbox" name="genre" value="non_fiction"> Non-Fiction</label>
-                            <label><input type="checkbox" name="genre" value="biography"> Biography</label>
-                            <label><input type="checkbox" name="genre" value="romance"> Romance</label>
+                    <form id="preferences-form">
+                        <div class="form-group">
+                            <label for="genre">Favorite Genres:</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" name="genre" value="fiction"> Fiction</label>
+                                <label><input type="checkbox" name="genre" value="mystery"> Mystery</label>
+                                <label><input type="checkbox" name="genre" value="science_fiction"> Science
+                                    Fiction</label>
+                                <label><input type="checkbox" name="genre" value="fantasy"> Fantasy</label>
+                                <label><input type="checkbox" name="genre" value="historical_fiction">
+                                    Historical</label>
+                                <label><input type="checkbox" name="genre" value="non_fiction"> Non-Fiction</label>
+                                <label><input type="checkbox" name="genre" value="biography"> Biography</label>
+                                <label><input type="checkbox" name="genre" value="romance"> Romance</label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="length">Preferred Book Length:</label>
-                        <select name="length" id="length">
-                            <option value="short">Short (under 300 pages)</option>
-                            <option value="medium" selected>Medium (300-500 pages)</option>
-                            <option value="long">Long (over 500 pages)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="era">Preferred Era:</label>
-                        <select name="era" id="era">
-                            <option value="classic">Classic Literature</option>
-                            <option value="20th">20th Century</option>
-                            <option value="contemporary" selected>Contemporary</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Reading Pace:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="pace" value="slow"> Slow & Thoughtful</label>
-                            <label><input type="radio" name="pace" value="moderate" checked> Moderate</label>
-                            <label><input type="radio" name="pace" value="fast"> Fast & Page-turning</label>
+                        <div class="form-group">
+                            <label for="length">Preferred Book Length:</label>
+                            <select name="length" id="length">
+                                <option value="short">Short (under 300 pages)</option>
+                                <option value="medium" selected>Medium (300-500 pages)</option>
+                                <option value="long">Long (over 500 pages)</option>
+                            </select>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="mood">Preferred Mood:</label>
-                        <select name="mood" id="mood">
-                            <option value="uplifting">Uplifting & Hopeful</option>
-                            <option value="thoughtful" selected>Thoughtful & Profound</option>
-                            <option value="dark">Dark & Intense</option>
-                            <option value="funny">Humorous & Light</option>
-                        </select>
-                    </div>
+                        <div class="form-group">
+                            <label for="era">Preferred Era:</label>
+                            <select name="era" id="era">
+                                <option value="classic">Classic Literature</option>
+                                <option value="20th">20th Century</option>
+                                <option value="contemporary" selected>Contemporary</option>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="favorite-books">Books You've Enjoyed:</label>
-                        <textarea name="favorite-books" id="favorite-books" rows="3"
-                            placeholder="List a few books you've enjoyed recently..."></textarea>
-                    </div>
+                        <div class="form-group">
+                            <label>Reading Pace:</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="pace" value="slow"> Slow & Thoughtful</label>
+                                <label><input type="radio" name="pace" value="moderate" checked> Moderate</label>
+                                <label><input type="radio" name="pace" value="fast"> Fast & Page-turning</label>
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="name">Your Name:</label>
-                        <input type="text" name="name" id="name" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="mood">Preferred Mood:</label>
+                            <select name="mood" id="mood">
+                                <option value="uplifting">Uplifting & Hopeful</option>
+                                <option value="thoughtful" selected>Thoughtful & Profound</option>
+                                <option value="dark">Dark & Intense</option>
+                                <option value="funny">Humorous & Light</option>
+                            </select>
+                        </div>
 
-                    <button type="submit" class="submit-button">Submit Preferences</button>
-                </form>
+                        <div class="form-group">
+                            <label for="favorite-books">Books You've Enjoyed:</label>
+                            <textarea name="favorite-books" id="favorite-books" rows="3"
+                                placeholder="List a few books you've enjoyed recently..."></textarea>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="name">Your Name:</label>
+                            <input type="text" name="name" id="name" required>
+                        </div>
+
+                        <button type="submit" class="submit-button">Submit Preferences</button>
+                    </form>
+                </div>
+
+                <div class="navigation-controls">
+                    <div class="prev-button" onclick="turnPage('foreword')">← Previous</div>
+                    <div class="next-button" style="visibility: hidden;">Next Page →</div>
+                </div>
                 <div class="page-number">1</div>
                 <div class="corner-fold"></div>
-                <div class="prev-button" onclick="turnPage('foreword')">← Previous</div>
             </div>
-        </div>
 
-        <div class="page group-setup hidden">
-            <div class="page-content">
-                <h1>Book Club Setup</h1>
-                <p>Now, let's set up your book club group.</p>
+            <div class="page group-setup hidden">
+                <div class="multi-page-effect">
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-edge"></div>
+                </div>
+                <div class="page-content">
+                    <h1>Book Club Setup</h1>
+                    <p>Now, let's set up your book club group.</p>
 
-                <div id="members-list">
-                    <h3>Current Members:</h3>
-                    <ul id="members">
-                        <!-- Members will be added here dynamically -->
-                    </ul>
+                    <div id="members-list">
+                        <h3>Current Members:</h3>
+                        <ul id="members">
+                            <!-- Members will be added here dynamically -->
+                        </ul>
+                    </div>
+
+                    <form id="group-form">
+                        <div class="form-group">
+                            <label for="group-name">Book Club Name:</label>
+                            <input type="text" id="group-name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meeting-frequency">Meeting Frequency:</label>
+                            <select id="meeting-frequency">
+                                <option value="weekly">Weekly</option>
+                                <option value="biweekly" selected>Bi-weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+
+                        <div class="button-row">
+                            <button type="button" id="add-member" class="action-button">Add Another Member</button>
+                            <button type="submit" class="submit-button">Find Our Book Match</button>
+                        </div>
+                    </form>
                 </div>
 
-                <form id="group-form">
-                    <div class="form-group">
-                        <label for="group-name">Book Club Name:</label>
-                        <input type="text" id="group-name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="meeting-frequency">Meeting Frequency:</label>
-                        <select id="meeting-frequency">
-                            <option value="weekly">Weekly</option>
-                            <option value="biweekly" selected>Bi-weekly</option>
-                            <option value="monthly">Monthly</option>
-                        </select>
-                    </div>
-
-                    <button type="button" id="add-member" class="action-button">Add Another Member</button>
-                    <button type="submit" class="submit-button">Find Our Book Match</button>
-                </form>
-
+                <div class="navigation-controls">
+                    <div class="prev-button" onclick="turnPage('quiz')">← Previous</div>
+                    <div class="next-button" style="visibility: hidden;">Next Page →</div>
+                </div>
                 <div class="page-number">2</div>
                 <div class="corner-fold"></div>
-                <div class="prev-button" onclick="turnPage('quiz')">← Previous</div>
             </div>
-        </div>
 
-        <div class="page results hidden">
-            <div class="page-content">
-                <h1>Your Book Club Matches</h1>
-                <p>Based on everyone's preferences, here are the perfect books for your club:</p>
-
-                <div id="book-results">
-                    <div class="loading">Finding the perfect matches...</div>
-                    <!-- Book recommendations will appear here -->
+            <div class="page results hidden">
+                <div class="multi-page-effect">
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-edge"></div>
                 </div>
+                <div class="page-content">
+                    <h1>Your Book Club Matches</h1>
+                    <p>Based on everyone's preferences, here are the perfect books for your club:</p>
 
-                <div class="rate-section">
-                    <h3>Rate these recommendations:</h3>
-                    <p>Your ratings help us improve future recommendations.</p>
-                    <div class="rating-stars">
-                        <span class="star" data-value="1">★</span>
-                        <span class="star" data-value="2">★</span>
-                        <span class="star" data-value="3">★</span>
-                        <span class="star" data-value="4">★</span>
-                        <span class="star" data-value="5">★</span>
+                    <div id="book-results">
+                        <div class="loading">Finding the perfect matches...</div>
+                        <!-- Book recommendations will appear here -->
                     </div>
-                    <button id="submit-rating" class="action-button">Submit Rating</button>
+
+                    <div class="rate-section">
+                        <h3>Rate these recommendations:</h3>
+                        <p>Your ratings help us improve future recommendations.</p>
+                        <div class="rating-stars">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <button id="submit-rating" class="action-button">Submit Rating</button>
+                    </div>
                 </div>
 
+                <div class="navigation-controls">
+                    <div class="prev-button" onclick="turnPage('group-setup')">← Previous</div>
+                    <div class="next-button" onclick="turnPage('history')">Next Page →</div>
+                </div>
                 <div class="page-number">3</div>
                 <div class="corner-fold"></div>
-                <div class="prev-button" onclick="turnPage('group-setup')">← Previous</div>
-                <div class="next-button" onclick="turnPage('history')">Next Page →</div>
             </div>
-        </div>
 
-        <div class="page history hidden">
-            <div class="page-content">
-                <h1>Your Reading History</h1>
-                <p>Keep track of your book club's journey through literature.</p>
+            <div class="page history hidden">
+                <div class="multi-page-effect">
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-layer"></div>
+                    <div class="page-edge"></div>
+                </div>
+                <div class="page-content">
+                    <h1>Your Reading History</h1>
+                    <p>Keep track of your book club's journey through literature.</p>
 
-                <div id="history-list">
-                    <!-- Reading history will appear here -->
-                    <p class="empty-state">Your reading history will appear here after you've rated books.</p>
+                    <div id="history-list">
+                        <!-- Reading history will appear here -->
+                        <p class="empty-state">Your reading history will appear here after you've rated books.</p>
+                    </div>
+
+                    <button id="new-recommendations" class="submit-button">Get Fresh Recommendations</button>
                 </div>
 
-                <button id="new-recommendations" class="submit-button">Get Fresh Recommendations</button>
-
+                <div class="navigation-controls">
+                    <div class="prev-button" onclick="turnPage('results')">← Previous</div>
+                    <div class="next-button" style="visibility: hidden;">Next Page →</div>
+                </div>
                 <div class="page-number">4</div>
                 <div class="corner-fold"></div>
-                <div class="prev-button" onclick="turnPage('results')">← Previous</div>
             </div>
         </div>
     </div>

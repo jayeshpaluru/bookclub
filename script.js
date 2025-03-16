@@ -757,3 +757,106 @@
      // Otherwise return top 5 matches
      return scoredBooks.slice(0, 5);
  }
+
+ // 3D cursor interaction for book
+ document.addEventListener('DOMContentLoaded', function() {
+     const book = document.getElementById('book');
+     const container = document.getElementById('book-container');
+
+     if (book && container) {
+         // Only enable on devices that likely have a mouse
+         if (window.matchMedia("(min-width: 769px)").matches) {
+             container.addEventListener('mousemove', function(e) {
+                 handleBookRotation(e, book, container);
+             });
+
+             container.addEventListener('mouseleave', function() {
+                 resetBookRotation(book);
+             });
+         }
+     }
+
+     // Add the multi-page-effect to all pages if not added in HTML
+     document.querySelectorAll('.page').forEach(page => {
+         if (!page.querySelector('.multi-page-effect')) {
+             const multiPageEffect = document.createElement('div');
+             multiPageEffect.className = 'multi-page-effect';
+
+             // Add page layers
+             for (let i = 0; i < 5; i++) {
+                 const layer = document.createElement('div');
+                 layer.className = 'page-layer';
+                 multiPageEffect.appendChild(layer);
+             }
+
+             // Add page edge
+             const pageEdge = document.createElement('div');
+             pageEdge.className = 'page-edge';
+             multiPageEffect.appendChild(pageEdge);
+
+             page.appendChild(multiPageEffect);
+         }
+     });
+ });
+
+ // Handle book rotation based on mouse position
+ function handleBookRotation(e, book, container) {
+     const rect = container.getBoundingClientRect();
+
+     // Calculate mouse position relative to the center of the container
+     const mouseX = e.clientX - rect.left - rect.width / 2;
+     const mouseY = e.clientY - rect.top - rect.height / 2;
+
+     // Calculate rotation angles based on mouse position
+     // Limit rotation to reasonable values
+     const rotateY = Math.min(Math.max(-20 + (mouseX / rect.width * 10), -25), -5);
+     const rotateX = Math.min(Math.max(5 - (mouseY / rect.height * 5), 0), 10);
+
+     // Apply rotation with some easing using CSS class
+     book.classList.add('cursor-rotate-effect');
+     book.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+ }
+
+ // Reset book rotation when mouse leaves
+ function resetBookRotation(book) {
+     book.style.transform = 'rotateY(-20deg) rotateX(5deg)';
+ }
+
+ // Enhance the page turning function for better visual effect
+ function turnPage(pageId) {
+     // Get current active page
+     const activePage = document.querySelector('.page:not(.hidden)');
+     const direction = getPageDirection(activePage, pageId);
+
+     // Add turning animation class based on direction
+     if (activePage) {
+         activePage.classList.add(direction === 'forward' ? 'turning-out' : 'turning-in');
+
+         setTimeout(() => {
+             // Hide current page
+             activePage.classList.add('hidden');
+             activePage.classList.remove('turning-out', 'turning-in');
+
+             // Show new page
+             const nextPage = document.querySelector(`.page.${pageId}`);
+             nextPage.classList.remove('hidden');
+             nextPage.classList.add(direction === 'forward' ? 'turning-in' : 'turning-out');
+
+             setTimeout(() => {
+                 nextPage.classList.remove('turning-in', 'turning-out');
+             }, 50);
+         }, 500); // Increased for a more noticeable turn effect
+     }
+ }
+
+ // Determine page turn direction (forward or backward)
+ function getPageDirection(currentPage, newPageId) {
+     const pageOrder = ['foreword', 'quiz', 'group-setup', 'results', 'history'];
+
+     if (!currentPage) return 'forward';
+
+     const currentPageIndex = pageOrder.findIndex(id => currentPage.classList.contains(id));
+     const newPageIndex = pageOrder.findIndex(id => id === newPageId);
+
+     return newPageIndex > currentPageIndex ? 'forward' : 'backward';
+ }
